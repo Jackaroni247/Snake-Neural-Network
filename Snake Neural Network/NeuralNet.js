@@ -15,42 +15,32 @@
 
 class neuralNetwork {
   inputLayerSize = 10;
-  inputLayer = [];
-  hiddenLayers = [[], []];
   amountHiddenLayers = 2;
   hiddenLayerSize = 15;
-  weights = [];
-  outputLayer = [0, 0, 0, 0];
   outputLayerSize = 4;
 
-  offBalance = 0;
+  layers = [];
+
+  weights = [];
 
   constructor() {
-    for (var i = 0; i < this.amountHiddenLayers; i++) {
-      for (var k = 0; k < this.hiddenLayerSize; k++) {
-        this.hiddenLayers[i].push(random(0, 10));
-      }
-    }
-    for (var i = 0; i < this.amountHiddenLayers + 1; i++) {
-      this.weights.push([]);
-      if (i === this.amountHiddenLayers) {
-        this.offBalance = this.outputLayerSize - this.hiddenLayerSize;
-      }
-      for (var k = 0; k < this.hiddenLayerSize + this.offBalance; k++) {
-        this.weights[i].push([]);
+      for(var i = 0; i < this.amountHiddenLayers + 2; i++) {
+        this.layers[i] = [];
         if (i === 0) {
           for (var j = 0; j < this.inputLayerSize; j++) {
-            this.weights[i][k].push(random(0, 10));
+            this.layers[i][j] = 0;
+          }
+        } else if (i === this.amountHiddenLayers + 1) {
+          for (var j = 0; j < this.outputLayerSize; j++) {
+            this.layers[i][j] = 0;
           }
         } else {
           for (var j = 0; j < this.hiddenLayerSize; j++) {
-            this.weights[i][k].push(random(0, 10));
+            this.layers[i][j] = 0;
           }
         }
       }
-    }
-    console.log(this.weights);
-    console.log(this.hiddenLayers);
+      console.log(this.layers);
   }
 
   inForOut(
@@ -77,33 +67,8 @@ class neuralNetwork {
       xDistToNearestSnake,
       yDistToNearestSnake,
     ];
-    var sum = 0;
-    for (var i = 0; i < this.amountHiddenLayers + 1; i++) {
-      if (i != this.amountHiddenLayers) {
-        for (var k = 0; k < this.hiddenLayers[i].length; k++) {
-          sum = 0;
-          for (var j = 0; j < this.weights[i][k].length; j++) {
-            if (i === 0) {
-              sum += this.weights[i][k][j] * this.inputLayer[k];
-            } else {
-              sum += this.weights[i][k][j] * this.hiddenLayers[i - 1][k];
-            }
-          }
-          this.hiddenLayers[i][k] = sum;
-        }
-      } else {
-        for (var k = 0; k < this.outputLayer.length; k++) {
-          sum = 0;
-          for (var j = 0; j < this.weights[i][k].length; j++) {
-            sum +=
-              this.weights[i][k][j] *
-              this.hiddenLayers[this.hiddenLayers.length - 1];
-          }
-          this.outputLayer[k] = sum;
-        }
-      }
-    }
-    this.outputLayer = [0.25, 0.25, 0.25, 0.25];
+
+    this.layers[this.layers.length-1] = [0.25, 0.25, 0.25, 0.25];
   }
 }
 
