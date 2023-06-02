@@ -47,7 +47,7 @@ class neuralNetwork {
       for (var j = 0; j < this.layers[i].length; j++) {
         this.weights[i][j] = [];
         for (var k = 0; k < this.layers[i - 1].length; k++) {
-          this.weights[i][j][k] = random(0, 5);
+          this.weights[i][j][k] = random(0, 1);
         }
       }
     }
@@ -89,7 +89,7 @@ class neuralNetwork {
         this.layers[i][j] = 1 / (1 + pow(this.e, 0 - sum));
       }
     }
-    console.log(this.layers);
+    //console.log(this.layers);
     sum = 0;
     for (var i = 0; i < this.layers[this.layers.length - 1].length; i++) {
       sum += this.layers[this.layers.length - 1][i];
