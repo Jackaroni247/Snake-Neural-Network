@@ -5,16 +5,17 @@ var snakes = [];
 var apples = [];
 
 var highScore = 0;
-var applesAmount = 1;
+var snakesPerGeneration = 10;
 
 function setup() {
   createCanvas(600, 600);
   textAlign(CENTER);
-  snakes[0] = new snake();
-  snakes[0].brain = new neuralNetwork();
-  for (var i = 0; i < applesAmount; i++) {
-    apples[i] = new apple();
+  for(var i = 0; i < snakesPerGeneration; i++) {
+    snakes[i] = new snake;
+    snakes[i].brain = new neuralNetwork;
+    apples[i] = new apple;
   }
+  
 }
 
 function draw() {
@@ -24,11 +25,23 @@ function draw() {
   if (frameCount % 5 === 0) {
     tickSnakes();
     tickApples();
+    if(isAllDead()) {
+      console.log("They Are All Dead");
+      for(var i = 0; i < snakes.length; i++);
+    }
   }
   drawSnakes();
   drawApples();
   text("HIGH SCORE: " + highScore, width / 2, 20);
-  text("SCORE: " + snakes[0].score, width / 2, 50);
+}
+
+function isAllDead() {
+  for (var i = 0; i < snakes.length; i++) {
+    if (snakes[i].alive === true) {
+      return(false);
+    }
+  }
+  return(true);
 }
 
 function drawBoard(xGrid, yGrid) {
@@ -101,10 +114,10 @@ function keyPressed() {
         apples[i].x = round(random(1, boardXSize - 1));
         apples[i].y = round(random(1, boardYSize - 1));
         check = false;
-        for (var k = 0; k < snakes[0].xArr.length; k++) {
+        for (var k = 0; k < snakes[apples.indexOf(apples[i])].xArr.length; k++) {
           if (
-            apples[i].x === snakes[0].xArr[k] &&
-            apples[i].y === snakes[0].yArr[k]
+            apples[i].x === snakes[apples.indexOf(apples[i])].xArr[k] &&
+            apples[i].y === snakes[apples.indexOf(apples[i])].yArr[k]
           ) {
             check = true;
           }
