@@ -43,8 +43,8 @@ class snake {
     var maxIndex = 0;
     var check = false;
     var ranNum = random(0, 1);
-    for (var z = 0; z < this.brain.outputLayer.length; z++) {
-      checkNum += this.brain.outputLayer[z];
+    for (var z = 0; z < this.brain.layers[this.brain.layers.length-1].length; z++) {
+      checkNum += this.brain.layers[this.brain.layers.length-1][z];
       if (ranNum <= checkNum) {
         maxIndex = z;
         check = true;
