@@ -28,8 +28,8 @@ class snake {
     }
 
     this.brain.inForOut(
-      apples[0].x - this.xArr[this.xArr.length - 1],
-      apples[0].y - this.yArr[this.yArr.length - 1],
+      apples[snakes.indexOf(this)].x - this.xArr[this.xArr.length - 1],
+      apples[snakes.indexOf(this)].y - this.yArr[this.yArr.length - 1],
       this.xDirection,
       this.yDirection,
       this.xArr[this.xArr.length - 1],
@@ -43,8 +43,12 @@ class snake {
     var maxIndex = 0;
     var check = false;
     var ranNum = random(0, 1);
-    for (var z = 0; z < this.brain.layers[this.brain.layers.length-1].length; z++) {
-      checkNum += this.brain.layers[this.brain.layers.length-1][z];
+    for (
+      var z = 0;
+      z < this.brain.layers[this.brain.layers.length - 1].length;
+      z++
+    ) {
+      checkNum += this.brain.layers[this.brain.layers.length - 1][z];
       if (ranNum <= checkNum) {
         maxIndex = z;
         check = true;
@@ -133,26 +137,24 @@ class apple {
   y = round(random(1, boardYSize - 1));
 
   tick() {
-    for (var i = 0; i < snakes.length; i++) {
-      if (
-        this.x === snakes[i].xArr[snakes[i].xArr.length - 1] &&
-        this.y === snakes[i].yArr[snakes[i].yArr.length - 1]
-      ) {
-        snakes[i].xArr.push(this.x);
-        snakes[i].yArr.push(this.y);
-        snakes[i].score += 1;
-        if (snakes[i].score > highScore) {
-          highScore = snakes[i].score;
-        }
-        var check = true;
-        while (check) {
-          this.x = round(random(1, boardXSize - 1));
-          this.y = round(random(1, boardYSize - 1));
-          check = false;
-          for (var k = 0; k < snakes[0].xArr.length; k++) {
-            if (this.x === snakes[0].xArr[k] && this.y === snakes[0].yArr[k]) {
-              check = true;
-            }
+    if (
+      this.x === snakes[apples.indexOf(this)].xArr[snakes[apples.indexOf(this)].xArr.length - 1] &&
+      this.y === snakes[apples.indexOf(this)].yArr[snakes[apples.indexOf(this)].yArr.length - 1]
+    ) {
+      snakes[apples.indexOf(this)].xArr.push(this.x);
+      snakes[apples.indexOf(this)].yArr.push(this.y);
+      snakes[apples.indexOf(this)].score += 1;
+      if (snakes[apples.indexOf(this)].score > highScore) {
+        highScore = snakes[apples.indexOf(this)].score;
+      }
+      var check = true;
+      while (check) {
+        this.x = round(random(1, boardXSize - 1));
+        this.y = round(random(1, boardYSize - 1));
+        check = false;
+        for (var k = 0; k < snakes[0].xArr.length; k++) {
+          if (this.x === snakes[apples.indexOf(this)].xArr[k] && this.y === snakes[apples.indexOf(this)].yArr[k]) {
+            check = true;
           }
         }
       }
